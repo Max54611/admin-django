@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+  </head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'admin_crud:logout_view' %}">Cerrar Sesión</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+      </nav>
+
+      <div class="container py-4">
+        <div class="row">
+
+          <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+              
+              <h2>Gestion de Producto</h2>
+              <div class="card">
+                  <div class="card-body">
+                      <form action="/registrarproduct" method="POST">
+                          {% csrf_token %}
+                          <div class="form-group mb-1">
+                              <input type="text" id="txtcodigo" name="txtcodigo" placeholder="Codigo" value="40" class="form-control"></input>       
+                          </div> 
+                          <div class="form-group mb-1">
+                            <textarea class="form-control" id="txtdescr" name="txtdescr" placeholder="Descripcion" rows="3"></textarea>
+                          </div> 
+                          <div class="form-group mb-1">
+                              <input type="text" id="txturl" name="txturl" placeholder="URL imagen" class="form-control"></input>       
+                          </div>  
+                          <div class="form-group mb-1">
+                            <div class="input-group">
+                              <span class="input-group-text">Precio</span>
+                            <input type="number" id="numprecio" name="numprecio" class="form-control"></input>       
+                          </div>  
+                        </div>
+                        <div class="form-group mb-1">
+                          <input type="text" id="txtname" name="txtname" placeholder="Nombre" class="form-control"></input>       
+                        </div> 
+                          <div class="form-group mb-1">
+                              <div class="input-group">
+                                  <span class="input-group-text">Categoria:</span> 
+                                  <select class="form-select" id="categ" name="categ">
+                                      {% for c in categorys %}
+                                      <option value="{{c.category_id}}">{{c.category_name}}</option>
+                                      {% endfor %}
+                                  </select>
+                              </div>
+                          </div>
+                          <div class="form-group mb-1">
+                              <button type="submit" class="btn btn-success form-control">Guardar</button>       
+                          </div> 
+                      </form>
+                  </div>
+              </div>
+          </div>
+      
+          <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
+              <h1>Listado de Productos</h1>
+              <div class="table-responsive py-2">
+                  <table class="table table-info">
+                      <thead class="table-dark">
+                          <tr>
+                              <th>ID</th>
+                              <th>Precio Original</th>
+                              <th>Nombre</th>
+                              <th>No. Reseñas</th>
+                              <th>Precio Venta</th>
+                              <th>Reseñas totales</th>
+                              <th>Categoria</th>
+                              <th colspan="2">Opciones de manejo</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for p in products %}
+                          <tr>
+                              <td>{{p.product_id}}</td>
+                              <td>S/{{p.marked_price}}</td>
+                              <td>{{p.product_name}}</td>
+                              <td>{{p.review_count}}</td>
+                              <td>S/{{p.selling_price}}</td>
+                              <td>{{p.total_rating}}</td>
+                              <td>{{p.category_category}}</td>
+                              <td><a href="eliminarproduct/{{p.product_id}}" class="btn btn-danger">Eliminar</a></td>
+                          </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      
+      </div>
+      </div>
+      <div class="container">
+        <footer class="py-3 my-4">
+          <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+            <li class="nav-item">Magno Mori Ramon</li>
+          </ul>
+          <p class="text-center text-muted">Tecsup 4C24A</p>
+        </footer>
+      </div>
+    </body>  
+</html>
